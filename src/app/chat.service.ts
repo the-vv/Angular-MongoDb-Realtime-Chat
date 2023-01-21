@@ -6,7 +6,6 @@ import * as Realm from "realm-web";
 })
 export class ChatService {
   public app = new Realm.App({ id: 'ie-chat-tweem' });
-  public ObjectId = Realm.BSON.ObjectId;
   public loading = false;
 
   public messages: any[] = [];
@@ -16,12 +15,8 @@ export class ChatService {
   }
 
   public async login() {
-    // Create an anonymous credential
     const credentials = Realm.Credentials.anonymous();
-
-    // Authenticate the user
     const user = await this.app.logIn(credentials);
-    // `App.currentUser` updates to match the logged in user
     console.assert(user.id === this.app?.currentUser?.id);
   }
 
@@ -54,8 +49,7 @@ export class ChatService {
   }
 
   public addOne(message: string, userName: string) {
-    const mongo = this.app?.currentUser?.mongoClient('ie-chat');
-    const collection = mongo?.db('iechat').collection('chats');
+    const collection = this.getCollection()
     collection?.insertOne({
       message,
       userName
