@@ -11,7 +11,7 @@ export class ChatService {
   public messages: any[] = [];
 
   constructor() {
-    this.login();
+    // this.login();
   }
 
   public async login() {
